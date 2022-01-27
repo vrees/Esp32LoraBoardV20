@@ -17,11 +17,12 @@
 #define TTN_PIN_SPI_SCLK  5
 #define TTN_PIN_SPI_MOSI  27
 #define TTN_PIN_SPI_MISO  19
-#define TTN_PIN_NSS       18
+#define TTN_PIN_NSS       18 // also called CS
 #define TTN_PIN_RXTX      TTN_NOT_CONNECTED
 #define TTN_PIN_RST       23
 #define TTN_PIN_DIO0      26
-#define TTN_PIN_DIO1      33
+#define TTN_PIN_DIO1      25
+#define TTN_PIN_DIO2      32
 
 
 // JTAG ESP-Programmer
@@ -31,18 +32,17 @@
 #define JTAG_TDO        (15)
 
 // IO
-#define ROTARY_SWITCH   (17)
-#define ROTARY_A        (36)
-#define ROTARY_B        (39)
+#define TRIGGER         (17)
+#define ECHO            (4)
 #define RESERVED        (2)
 
 // Control Pins
-#define POWER_ENABLE    (16)
-#define U_EXT_ENABLE    (4)
-#define U_EXT_MEASURE   (35)    // ADC1_CHANNEL_7
-#define U_BAT_ENABLE     (25)
-#define U_BAT_MEASURE    (34)   // ADC1_CHANNEL_6
-#define WATER_LEVEL_PIN  GPIO_NUM_36   // ROTARY_A
+#define POWER_ENABLE            (16)
+#define SOLAR_MEASURE           (35)   // ADC1_CHANNEL_7
+#define POWER_PATH_MEASURE      (34)   // ADC1_CHANNEL_6
+#define VCC_2_MEASURE           (33)   
+#define TEMPERATURE             (39) 
+#define WATER_LEVEL_PIN         GPIO_NUM_36   
 
 // I2C Bus
 #define I2C_SDA         (21)

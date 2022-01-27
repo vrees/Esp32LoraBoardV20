@@ -4,8 +4,8 @@
 #include "driver/gpio.h"
 #include "esp32-lora-board-pins.h"
 
-#define GPIO_OUTPUT_PIN_SEL ((1ULL << POWER_ENABLE) | (1ULL << U_EXT_ENABLE) | (1ULL << U_BAT_ENABLE))
-#define GPIO_INPUT_PIN_SEL ((1ULL << U_EXT_MEASURE) | (1ULL << U_BAT_MEASURE) | (1ULL << WATER_LEVEL_PIN))
+#define GPIO_OUTPUT_PIN_SEL (1ULL << POWER_ENABLE) 
+#define GPIO_INPUT_PIN_SEL ((1ULL << SOLAR_MEASURE) | (1ULL << POWER_PATH_MEASURE) | (1ULL << VCC_2_MEASURE) | (1ULL << TEMPERATURE) | (1ULL << WATER_LEVEL_PIN))
 
 #ifdef __cplusplus
 extern "C"
@@ -51,29 +51,6 @@ void disablePeripheralPower()
     gpio_set_level((gpio_num_t)POWER_ENABLE, 1);
 }
 
-void enableBatteryVoltageMeasurement()
-{
-    printf("Enabling Battery Voltage Measurement\n");
-    gpio_set_level((gpio_num_t)U_BAT_ENABLE, 0);
-}
-
-void disableBatteryVoltageMeasurement()
-{
-    printf("Disabling Battery Voltage Measurement\n");
-    gpio_set_level((gpio_num_t)U_BAT_ENABLE, 1);
-}
-
-void enableExternalVoltageMeasurement()
-{
-    printf("Enabling External Voltage Measurement\n");
-    gpio_set_level((gpio_num_t)U_EXT_ENABLE, 0);
-}
-
-void disableExternalVoltageMeasurement()
-{
-    printf("Disabling External Voltage Measurement\n");
-    gpio_set_level((gpio_num_t)U_EXT_ENABLE, 1);
-}
 
 #ifdef __cplusplus
 }

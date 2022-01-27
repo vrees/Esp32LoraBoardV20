@@ -11,12 +11,6 @@ extern "C"
     void enablePeripheralPower();
     void disablePeripheralPower();
 
-    void enableBatteryVoltageMeasurement();
-    void disableBatteryVoltageMeasurement();
-
-    void enableExternalVoltageMeasurement();
-    void disableExternalVoltageMeasurement();
-
 #ifdef __cplusplus
 }
 #endif

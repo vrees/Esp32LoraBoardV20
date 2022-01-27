@@ -79,8 +79,6 @@ void wakeupAndInit()
 
   // define output level before port config to ensure unwanted glitch
   enablePeripheralPower();
-  enableBatteryVoltageMeasurement();
-  enableExternalVoltageMeasurement();
   initIoPorts();
 
   /* 
@@ -98,8 +96,6 @@ void powerOffAndSleep(bool rebootImmediately)
   printf("Preparing for deep sleep\n");
 
   disablePeripheralPower();
-  disableExternalVoltageMeasurement();
-  disableBatteryVoltageMeasurement();
   vTaskDelay(1000 / portTICK_PERIOD_MS);
 
   int sleepTimeInSeconds;

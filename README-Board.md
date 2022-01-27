@@ -12,16 +12,6 @@ ESP32 board including Lora RFM95 module optimized for low power deep sleep opera
 
 
 
-![Esp32LoraBoard](../master/kicad/images_V1.0/Esp32LoraBoard-DeepSleep.png)
-
-![PCB 3D](../master/kicad/images_V1.1/Esp32LoraBoard_Kicad_PCB_3D_V1.1.png)
-
-![Schema](../master/kicad/images_V1.1/Esp32LoraBoard_Kicad_Schema_V1.1.pdf)
-
-[PCB](../master/kicad/images_V1.1/Esp32LoraBoard_Kicad_PCB_V1.1.png)
-
-
-
 ### Power consumption
 
 #### Power on and idle 
@@ -89,3 +79,5 @@ Spannung am LiPo-Akku: 4.13 Volt
 * Es gilt immer: Uesp = Usolar + Ugs   
 * Es gilt immer: Ubatt = Uds + Uesp   
 
+### Anmerkungen Verion 2.0
+1. IO2 (IO32 des ESP) nicht verwendet von TTN-Library
