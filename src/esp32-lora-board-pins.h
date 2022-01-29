@@ -37,12 +37,15 @@
 #define RESERVED        (2)
 
 // Control Pins
-#define POWER_ENABLE            (16)
-#define SOLAR_MEASURE           (35)   // ADC1_CHANNEL_7
-#define POWER_PATH_MEASURE      (34)   // ADC1_CHANNEL_6
-#define VCC_2_MEASURE           (33)   
-#define TEMPERATURE             (39) 
-#define WATER_LEVEL_PIN         GPIO_NUM_36   
+#define POWER_ENABLE                (16)
+#define SOLAR_MEASURE               (35)   // ADC1_CHANNEL_7
+#define POWER_PATH_MEASURE          (34)   // ADC1_CHANNEL_6
+#define VCC_2_MEASURE               (33)   // ADC1_CHANNEL_5
+#define SOLAR_MEASURE_CHANNEL       ADC1_CHANNEL_7
+#define POWER_PATH_MEASURE_CHANNEL  ADC1_CHANNEL_6
+#define VCC2_MEASURE_CHANNEL        ADC1_CHANNEL_5
+#define TEMPERATURE                 (39) 
+#define WATER_LEVEL_PIN             GPIO_NUM_36   
 
 // I2C Bus
 #define I2C_SDA         (21)

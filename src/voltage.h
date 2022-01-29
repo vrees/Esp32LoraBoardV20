@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-#define PAYLOAD_LENGTH 8
+#define PAYLOAD_LENGTH 12
 
     typedef enum
     {
@@ -26,7 +26,9 @@ extern "C"
     typedef struct
     {
         water_level_t waterLevel;
-        float vccVoltage;
+        float solarVoltage;
+        float powerPathVoltage;
+        float vcc2Voltage;
         int bootCount;
         int execTooLongCount;
     } sensor_values_t;
