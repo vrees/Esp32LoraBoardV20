@@ -1,7 +1,10 @@
-#include <driver/adc.h>
-#include <math.h>
+#include "freertos/FreeRTOS.h"
+#include "esp_event.h"
+#include "driver/adc.h"
+#include "math.h"
 #include "esp32-lora-board-pins.h"
 #include "voltage.h"
+#include "jsnsr04t.h"
 #include "sleep-wakeup.h"
 
 #ifdef __cplusplus
@@ -9,7 +12,7 @@ extern "C"
 {
 #endif
 
-  const float FACTOR_6_DB = 2 * 2.2 / 4095;  // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_6
+  const float FACTOR_6_DB = 2 * 2.2 / 4095;   // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_6
   const float FACTOR_11_DB = 2 * 3.70 / 4095; // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_11
 
   int number_round = 10;
@@ -80,14 +83,14 @@ extern "C"
     return coeff.c4 * pow(adc, 4) + coeff.c3 * pow(adc, 3) + coeff.c2 * pow(adc, 2) + coeff.c1 * adc + coeff.c0;
   }
 
-  water_level_t getWaterLevel()
+  water_level_t getWaterLevelStatus()
   {
-    return gpio_get_level(WATER_LEVEL_PIN) == 0 ? LOW : HIGH;
+    return gpio_get_level(WATER_LEVEL_PIN) == 0 ? LOW : NORMAL;
   }
 
   void decodeToPayload(sensor_values_t values)
   {
-    payload[0] = values.waterLevel;
+    payload[0] = values.waterLevelStatus;
 
     int16_t val = values.solarVoltage * 100;
     payload[1] = val >> 8;
@@ -106,6 +109,10 @@ extern "C"
     payload[9] = values.bootCount;
     payload[10] = values.execTooLongCount >> 8;
     payload[11] = execTooLongCount;
+
+    val = values.waterLevel;
+    payload[12] = val >> 8;
+    payload[13] = val;
   }
 
   float readVoltage(adc1_channel_t channel)
@@ -127,8 +134,10 @@ extern "C"
     printf("PowerPath-Voltage: %f Volt)\n", sensor_values.powerPathVoltage);
     printf("VCC_2-Voltage: %f Volt)\n", sensor_values.vcc2Voltage);
 
-    sensor_values.waterLevel = getWaterLevel();
-    printf("Water Level is %s  %i \n", sensor_values.waterLevel == HIGH ? "High" : "LOW", sensor_values.waterLevel);
+    sensor_values.waterLevel = measureDistance_mm();
+
+    sensor_values.waterLevelStatus = getWaterLevelStatus();
+    printf("Water Level is %s  %i \n", sensor_values.waterLevelStatus == NORMAL ? "High" : "LOW", sensor_values.waterLevelStatus);
 
     decodeToPayload(sensor_values);
   }

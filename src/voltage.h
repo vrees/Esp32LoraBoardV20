@@ -6,12 +6,12 @@ extern "C"
 {
 #endif
 
-#define PAYLOAD_LENGTH 12
+#define PAYLOAD_LENGTH 14
 
     typedef enum
     {
         LOW = 0,
-        HIGH = 1,
+        NORMAL = 1,
     } water_level_t;
 
     typedef struct
@@ -25,7 +25,8 @@ extern "C"
 
     typedef struct
     {
-        water_level_t waterLevel;
+        water_level_t waterLevelStatus;
+        float waterLevel;
         float solarVoltage;
         float powerPathVoltage;
         float vcc2Voltage;
@@ -34,7 +35,7 @@ extern "C"
     } sensor_values_t;
 
     void readSensorValues();
-    water_level_t getWaterLevel();
+    water_level_t getWaterLevelStatus();
 
     extern uint8_t payload[PAYLOAD_LENGTH];
     extern sensor_values_t sensor_values;

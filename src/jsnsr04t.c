@@ -37,7 +37,7 @@ extern "C"
     {
         // TRIG pulse for 10ms
         gpio_set_level(TRIGGER, 1);
-        ets_delay_us(30);
+        ets_delay_us(20);
         gpio_set_level(TRIGGER, 0);
 
         int64_t startMicros = esp_timer_get_time();
@@ -59,13 +59,13 @@ extern "C"
         return esp_timer_get_time() - startMicros;
     }
 
-    float measureDistance()
+    float measureDistance_mm()
     {
         int64_t duration = jsnsr04tTiming();
 
         // Berechnung der Entfernung
         // Da der Weg doppel ist: Hinweg - Rückweg, muss der Wert durch 2 geteilt werden
-        float distance = duration * 0.034 / 2;
+        float distance = duration * 0.34 / 2;
 
         printf("JSN-SR04T Distance=%f\n", distance);
 

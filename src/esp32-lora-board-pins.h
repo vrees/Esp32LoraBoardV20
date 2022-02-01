@@ -31,9 +31,10 @@
 #define JTAG_TMS        (14)
 #define JTAG_TDO        (15)
 
-// IO
+// JSN-SR04T
 #define TRIGGER         (17)
 #define ECHO            (4)
+
 #define RESERVED        (2)
 
 // Control Pins
