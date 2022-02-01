@@ -15,7 +15,8 @@
 
 #define MICROSEC_TO_SEC_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
 
-#define SLEEP_TIME_NORMAL_SEC 2 * 24 * 60 *60  //  Tage
+// #define SLEEP_TIME_NORMAL_SEC 2 * 24 * 60 *60  //  Tage
+#define SLEEP_TIME_NORMAL_SEC 30 *60  // 30 Minuten
 #define SLEEP_TIME_LOW_LEVEL_SEC 15 * 60  // alle 15 Minuten
 #define SLEEP_TIME_IMMEDIATE_WAKEUP 5  // reboot if tranmission is not successful in between 20 seconds
 
