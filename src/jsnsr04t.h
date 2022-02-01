@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-    float measureDistance_mm();
+    int measureDistance_mm();
 
 #ifdef __cplusplus
 }

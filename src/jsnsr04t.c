@@ -59,15 +59,15 @@ extern "C"
         return esp_timer_get_time() - startMicros;
     }
 
-    float measureDistance_mm()
+    int measureDistance_mm()
     {
         int64_t duration = jsnsr04tTiming();
 
         // Berechnung der Entfernung
         // Da der Weg doppel ist: Hinweg - Rückweg, muss der Wert durch 2 geteilt werden
-        float distance = duration * 0.34 / 2;
+        int distance = (int) duration * 0.34 / 2;
 
-        printf("JSN-SR04T Distance=%f\n", distance);
+        printf("JSN-SR04T Distance=%d mm\n", distance);
 
         return distance;
     }

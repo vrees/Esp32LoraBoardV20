@@ -26,7 +26,7 @@ extern "C"
     typedef struct
     {
         water_level_t waterLevelStatus;
-        float waterLevel;
+        int waterLevelmm; 
         float solarVoltage;
         float powerPathVoltage;
         float vcc2Voltage;

@@ -110,7 +110,7 @@ extern "C"
     payload[10] = values.execTooLongCount >> 8;
     payload[11] = execTooLongCount;
 
-    val = values.waterLevel;
+    val = values.waterLevelmm;
     payload[12] = val >> 8;
     payload[13] = val;
   }
@@ -134,7 +134,7 @@ extern "C"
     printf("PowerPath-Voltage: %f Volt)\n", sensor_values.powerPathVoltage);
     printf("VCC_2-Voltage: %f Volt)\n", sensor_values.vcc2Voltage);
 
-    sensor_values.waterLevel = measureDistance_mm();
+    sensor_values.waterLevelmm = measureDistance_mm();
 
     sensor_values.waterLevelStatus = getWaterLevelStatus();
     printf("Water Level is %s  %i \n", sensor_values.waterLevelStatus == NORMAL ? "High" : "LOW", sensor_values.waterLevelStatus);
