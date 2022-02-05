@@ -12,8 +12,11 @@ extern "C"
 {
 #endif
 
-  const float FACTOR_6_DB = 2 * 2.2 / 4095;   // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_6
-  const float FACTOR_11_DB = 2 * 3.90 / 4095; // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_11
+  const float VOLTAGE_DIVIDER_VCC = 1.80;   // 10K / 10K, korrigiert 
+  const float VOLTAGE_DIVIDER_SOLAR = 4.55; // 10K / 39K, korrigiert zum Faktor 1.07
+
+  const float FACTOR_6_DB = 2.2 / 4095;   // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_6
+  const float FACTOR_11_DB = 3.90 / 4095; // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_11
 
   int number_round = 10;
   int adc_reading_solar = 0;
@@ -38,9 +41,9 @@ extern "C"
   void initVoltage()
   {
     adc1_config_width(ADC_WIDTH_BIT_12);
-    adc1_config_channel_atten(SOLAR_MEASURE_CHANNEL, ADC_ATTEN_DB_11);
-    adc1_config_channel_atten(POWER_PATH_MEASURE_CHANNEL, ADC_ATTEN_DB_11);
-    adc1_config_channel_atten(VCC2_MEASURE_CHANNEL, ADC_ATTEN_DB_11);
+    adc1_config_channel_atten(SOLAR_MEASURE_CHANNEL, ADC_ATTEN_DB_6);
+    adc1_config_channel_atten(POWER_PATH_MEASURE_CHANNEL, ADC_ATTEN_DB_6);
+    adc1_config_channel_atten(VCC2_MEASURE_CHANNEL, ADC_ATTEN_DB_6);
   }
 
   int readRoundedAdc(adc1_channel_t channel)
@@ -59,10 +62,10 @@ extern "C"
         printf("\n");
     }
 
-    adc_sum = adc_sum / number_round;
+    adc = adc_sum / number_round;
     printf("Rounded ADC value=%-4d\n", adc_sum);
 
-    return adc_sum;
+    return adc;
   }
 
   double calulateVoltageCompensated(double adc, polynom_coeffients_t coeff)
@@ -115,10 +118,10 @@ extern "C"
     payload[13] = val;
   }
 
-  float readVoltage(adc1_channel_t channel)
+  float readVoltage(adc1_channel_t channel, float voltageDividerFactor)
   {
     int adc_reading = readRoundedAdc(channel);
-    return (float)adc_reading * FACTOR_11_DB;
+    return (float)adc_reading * FACTOR_6_DB * voltageDividerFactor;
 
     // voltage = calulateVoltageCompensated(adc_reading, module2_33Volt);
   }
@@ -126,9 +129,9 @@ extern "C"
   {
     initVoltage();
 
-    sensor_values.solarVoltage = readVoltage(SOLAR_MEASURE_CHANNEL);
-    sensor_values.powerPathVoltage = readVoltage(POWER_PATH_MEASURE_CHANNEL);
-    sensor_values.vcc2Voltage = readVoltage(VCC2_MEASURE_CHANNEL);
+    sensor_values.solarVoltage = readVoltage(SOLAR_MEASURE_CHANNEL, VOLTAGE_DIVIDER_SOLAR);
+    sensor_values.powerPathVoltage = readVoltage(POWER_PATH_MEASURE_CHANNEL, VOLTAGE_DIVIDER_SOLAR);
+    sensor_values.vcc2Voltage = readVoltage(VCC2_MEASURE_CHANNEL, VOLTAGE_DIVIDER_VCC);
 
     printf("Solarpanel-Voltage: %f Volt)\n", sensor_values.solarVoltage);
     printf("PowerPath-Voltage: %f Volt)\n", sensor_values.powerPathVoltage);
