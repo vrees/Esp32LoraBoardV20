@@ -13,7 +13,7 @@ extern "C"
 #endif
 
   const float FACTOR_6_DB = 2 * 2.2 / 4095;   // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_6
-  const float FACTOR_11_DB = 2 * 3.70 / 4095; // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_11
+  const float FACTOR_11_DB = 2 * 3.90 / 4095; // Spannungsteiler 1-zu-2, ADC_ATTEN_DB_11
 
   int number_round = 10;
   int adc_reading_solar = 0;
