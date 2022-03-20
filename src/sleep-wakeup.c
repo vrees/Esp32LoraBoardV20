@@ -81,15 +81,6 @@ void wakeupAndInit()
   // define output level before port config to ensure unwanted glitch
   enablePeripheralPower();
   initIoPorts();
-
-  /* 
-    for (size_t i = 0; i < 100; i++)
-    {
-      disablePeripheralPower();
-      vTaskDelay(2000);
-      enablePeripheralPower();
-      vTaskDelay(2000);      
-    } */
 }
 
 void powerOffAndSleep(bool rebootImmediately)

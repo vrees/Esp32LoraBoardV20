@@ -17,7 +17,7 @@
 
 #define TIMER_DIVIDER 16                             //  Hardware timer clock divider
 #define TIMER_SCALE (TIMER_BASE_CLK / TIMER_DIVIDER) // convert counter value to seconds
-#define TIMER_INTERVAL0_SEC (20.0)                   // sample test interval for the first timer
+#define TIMER_TRANMISSION_TIMEOUT_SEC (20.0)                   // sample test interval for the first timer
 
 /*
  * A sample structure to pass events
@@ -74,7 +74,7 @@ void IRAM_ATTR timer_group0_isr(void *para)
     if (timer_intr & TIMER_INTR_T0)
     {
         timer_group_clr_intr_status_in_isr(TIMER_GROUP_0, TIMER_0);
-        timer_counter_value += (uint64_t)(TIMER_INTERVAL0_SEC * TIMER_SCALE);
+        timer_counter_value += (uint64_t)(TIMER_TRANMISSION_TIMEOUT_SEC * TIMER_SCALE);
         timer_group_set_alarm_value_in_isr(TIMER_GROUP_0, timer_idx, timer_counter_value);
     }
     else
@@ -123,7 +123,7 @@ static void tg0_timer_init(int timer_idx, double timer_interval_sec)
     timer_start(TIMER_GROUP_0, timer_idx);
 }
 
-static void timer_example_evt_task(void *arg)
+static void powerOffAfterTimeout(void *arg)
 {
     while (1)
     {
@@ -138,11 +138,11 @@ static void timer_example_evt_task(void *arg)
 /*
  * In this example, we will test hardware timer0 and timer1 of timer group0.
  */
-void initExecutionTimer()
+void initTimeoutTimer()
 {
     timer_queue = xQueueCreate(10, sizeof(timer_event_t));
-    tg0_timer_init(TIMER_0, TIMER_INTERVAL0_SEC);
-    xTaskCreate(timer_example_evt_task, "timer_evt_task", 2048, NULL, 5, NULL);
+    tg0_timer_init(TIMER_0, TIMER_TRANMISSION_TIMEOUT_SEC);
+    xTaskCreate(powerOffAfterTimeout, "timer_evt_task", 2048, NULL, 5, NULL);
 }
 
 void stopExecutionTimer()

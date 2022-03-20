@@ -9,18 +9,13 @@
 #include "sleep-wakeup.h"
 #include "voltage.h"
 #include "timer.h"
+#include "loraconf.h"
 
 extern uint8_t payload[];
 
 static TheThingsNetwork ttn;
 
 // Sensor eingebaut in Quelle Buehlhof
-// DevEUI is derived from the MAC Adress of the devices network device
-
-// Debug board zum Testen: board-v20-78-21-84
-// Dev_EUI: 78_21_84_FF_FE_4a_fe_80 
-const char *appEui = "70B3D57ED005E5E5";
-const char *appKey = "081A28B62C2A4879D124BECD7B8594F4";
 
 const unsigned TX_INTERVAL = 5;
 
@@ -78,7 +73,7 @@ void printAllRFSettings()
 
 void sendMessages(void *pvParameter)
 {
-    initExecutionTimer();
+    initTimeoutTimer();
     TTNResponseCode res = ttn.transmitMessage(payload, PAYLOAD_LENGTH);
     stopExecutionTimer();
 
