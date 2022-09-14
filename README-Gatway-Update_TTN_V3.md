@@ -31,6 +31,22 @@ sudo journalctl -f
 ```
 
 
+## sudo vi /opt/ttn-gateway/packet_forwarder/lora_pkt_fwd/local_conf.json
+{
+        "gateway_conf": {
+                "gateway_ID": "B827EBFFFE6DF594"
+        }
+}
+
+
+## Check Gateway EUI
+```
+$ gateway-version 
+Raspberry Pi Zero W Rev 1.1, OS "10 (buster)", 4.19.97+.
+RAKWireless gateway RAK7243 no LTE version 4.2.5R install from firmware.
+Gateway ID: B827EBFFFE6DF594.
+```
+
 ## /opt/ttn-gateway/packet_forwarder/lora_pkt_fwd/global_conf.json
 
 ```
