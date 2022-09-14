@@ -33,10 +33,6 @@ sudo journalctl -f
 
 ##  local_conf.json
 
-Entweder Datei löschen oder verifizieren ob korrekte GatewayId eingetragen. 
-
-Falls gelöscht: sicherstellen dass die GatewayId in global_conf.json korrekt ist
-
 
 __sudo vi /opt/ttn-gateway/packet_forwarder/lora_pkt_fwd/local_conf.json__
 
