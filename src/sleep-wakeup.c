@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_sleep.h"
+#include "esp_timer.h"
 #include "driver/gpio.h"
 #include "esp32-lora-board-pins.h"
 #include "power.h"
@@ -115,7 +116,6 @@ void powerOffAndSleep(bool rebootImmediately)
   fflush(stdout);
 
   esp_deep_sleep_start();
-  printf("This will never be printed");
 }
 
 #ifdef __cplusplus

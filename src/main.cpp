@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_sleep.h"
+#include "esp_mac.h"
 #include "TheThingsNetwork.h"
 
 #include "esp32-lora-board-pins.h"
@@ -53,13 +54,13 @@ void printRFSettings(const char *window, const TTNRFSettings &settings)
     }
     else if (settings.spreadingFactor == kTTNFSK)
     {
-        printf("%s: FSK, BW %dkHz, %d.%d MHz\n",
-               window, bw, settings.frequency / 1000000, (settings.frequency % 1000000 + 50000) / 100000);
+        printf("%s: FSK, BW %dkHz, %lu Hz\n",
+               window, bw, settings.frequency);
     }
     else
     {
-        printf("%s: SF%d, BW %dkHz, %d.%d MHz\n",
-               window, sf, bw, settings.frequency / 1000000, (settings.frequency % 1000000 + 50000) / 100000);
+        printf("%s: SF%d, BW %dkHz, %lu Hz\n",
+               window, sf, bw, settings.frequency);
     }
 }
 
@@ -83,7 +84,12 @@ void sendMessages(void *pvParameter)
 
     vTaskDelay(TX_INTERVAL * 1000 / portTICK_PERIOD_MS);
 
-    ttn.shutdown();
+    // Wait until TTN communication is idle and save state
+    ttn.waitForIdle();
+    ttn.prepareForDeepSleep();
+
+    // ttn.shutdown();
+
     powerOffAndSleep(false);
 }
 
@@ -111,7 +117,7 @@ void showMacAddress()
 extern "C" void app_main(void)
 {
     printf("Start app on ESP32LoraBoard\n");
-    vTaskDelay(1000 / portTICK_PERIOD_MS); //Take some time to open up the Serial Monitor
+    vTaskDelay(1000 / portTICK_PERIOD_MS); // Take some time to open up the Serial Monitor
 
     wakeupAndInit();
 
@@ -128,14 +134,24 @@ extern "C" void app_main(void)
 
     readSensorValues();
 
-    printf("Joining...\n");
-    if (ttn.join())
+    if (ttn.resumeAfterDeepSleep())
     {
-        printf("Joined.\n");
-        xTaskCreate(sendMessages, "send_messages", 1024 * 4, (void *)0, 3, nullptr);
+        printf("Resumed from deep sleep.\n");
     }
     else
     {
-        printf("Join failed. Goodbye\n");
+        printf("Joining...\n");
+        if (ttn.join())
+        {
+            printf("Joined.\n");
+        }
+        else
+        {
+            printf("Join failed. Goodbye\n");
+            return;
+        }
     }
+
+    // send data and deep sleep afterwards
+    xTaskCreate(sendMessages, "send_messages", 1024 * 4, (void *)0, 3, nullptr);
 }

@@ -3,6 +3,8 @@
 #include "esp32-lora-board-pins.h"
 #include <sys/time.h>
 #include "driver/gpio.h"
+#include "esp_timer.h"
+#include <rom/ets_sys.h>
 
 #ifdef __cplusplus
 extern "C"

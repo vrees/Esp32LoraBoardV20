@@ -1,7 +1,7 @@
 #include "freertos/FreeRTOS.h"
+#include "driver/gpio.h"
 #include "esp_event.h"
 #include "nvs_flash.h"
-#include "driver/gpio.h"
 #include "esp32-lora-board-pins.h"
 
 #define GPIO_OUTPUT_PIN_SEL ((1ULL << POWER_ENABLE) | (1ULL << TRIGGER))
@@ -18,7 +18,7 @@ extern "C"
         // Configure all output pins
         gpio_config_t io_conf;
         // disable interrupt
-        io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
+        io_conf.intr_type = GPIO_INTR_DISABLE;
         // set as output mode
         io_conf.mode = GPIO_MODE_OUTPUT;
         // bit mask of the pins that you want to set
@@ -31,7 +31,7 @@ extern "C"
         gpio_config(&io_conf);
 
         // Configure all input pins
-        io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
+        io_conf.intr_type = GPIO_INTR_DISABLE;
         io_conf.mode = GPIO_MODE_INPUT;
         io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
         io_conf.pull_down_en = 0;
