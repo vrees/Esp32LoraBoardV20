@@ -84,7 +84,12 @@ void sendMessages(void *pvParameter)
 
     vTaskDelay(TX_INTERVAL * 1000 / portTICK_PERIOD_MS);
 
-    ttn.shutdown();
+    // Wait until TTN communication is idle and save state
+    ttn.waitForIdle();
+    ttn.prepareForDeepSleep();
+
+    // ttn.shutdown();
+
     powerOffAndSleep(false);
 }
 
@@ -112,7 +117,7 @@ void showMacAddress()
 extern "C" void app_main(void)
 {
     printf("Start app on ESP32LoraBoard\n");
-    vTaskDelay(1000 / portTICK_PERIOD_MS); //Take some time to open up the Serial Monitor
+    vTaskDelay(1000 / portTICK_PERIOD_MS); // Take some time to open up the Serial Monitor
 
     wakeupAndInit();
 
@@ -129,14 +134,24 @@ extern "C" void app_main(void)
 
     readSensorValues();
 
-    printf("Joining...\n");
-    if (ttn.join())
+    if (ttn.resumeAfterDeepSleep())
     {
-        printf("Joined.\n");
-        xTaskCreate(sendMessages, "send_messages", 1024 * 4, (void *)0, 3, nullptr);
+        printf("Resumed from deep sleep.\n");
     }
     else
     {
-        printf("Join failed. Goodbye\n");
+        printf("Joining...\n");
+        if (ttn.join())
+        {
+            printf("Joined.\n");
+        }
+        else
+        {
+            printf("Join failed. Goodbye\n");
+            return;
+        }
     }
+
+    // send data and deep sleep afterwards
+    xTaskCreate(sendMessages, "send_messages", 1024 * 4, (void *)0, 3, nullptr);
 }
