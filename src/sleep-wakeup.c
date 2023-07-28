@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_sleep.h"
+#include "esp_timer.h"
 #include "driver/gpio.h"
 #include "esp32-lora-board-pins.h"
 #include "power.h"

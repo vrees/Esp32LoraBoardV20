@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_sleep.h"
+#include "esp_mac.h"
 #include "TheThingsNetwork.h"
 
 #include "esp32-lora-board-pins.h"
@@ -53,13 +54,13 @@ void printRFSettings(const char *window, const TTNRFSettings &settings)
     }
     else if (settings.spreadingFactor == kTTNFSK)
     {
-        printf("%s: FSK, BW %dkHz, %d.%d MHz\n",
-               window, bw, settings.frequency / 1000000, (settings.frequency % 1000000 + 50000) / 100000);
+        printf("%s: FSK, BW %dkHz, %lu Hz\n",
+               window, bw, settings.frequency);
     }
     else
     {
-        printf("%s: SF%d, BW %dkHz, %d.%d MHz\n",
-               window, sf, bw, settings.frequency / 1000000, (settings.frequency % 1000000 + 50000) / 100000);
+        printf("%s: SF%d, BW %dkHz, %lu Hz\n",
+               window, sf, bw, settings.frequency);
     }
 }
 
