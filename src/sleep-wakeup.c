@@ -116,7 +116,6 @@ void powerOffAndSleep(bool rebootImmediately)
   fflush(stdout);
 
   esp_deep_sleep_start();
-  printf("This will never be printed");
 }
 
 #ifdef __cplusplus
