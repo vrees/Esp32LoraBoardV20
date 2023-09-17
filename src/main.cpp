@@ -10,6 +10,7 @@
 #include "sleep-wakeup.h"
 #include "voltage.h"
 #include "timer.h"
+#include "string.h"
 #include "loraconf.h"
 
 extern uint8_t payload[];
@@ -33,6 +34,7 @@ void initEsp32Resources()
 
     // Initialize SPI bus
     spi_bus_config_t spi_bus_config;
+    memset(&spi_bus_config, 0, sizeof(spi_bus_config_t));
     spi_bus_config.miso_io_num = TTN_PIN_SPI_MISO;
     spi_bus_config.mosi_io_num = TTN_PIN_SPI_MOSI;
     spi_bus_config.sclk_io_num = TTN_PIN_SPI_SCLK;
