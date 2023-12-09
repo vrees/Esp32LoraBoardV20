@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_sleep.h"
+#include "esp_timer.h"
 #include "driver/gpio.h"
 #include "esp32-lora-board-pins.h"
 #include "power.h"
@@ -18,6 +19,7 @@
 // #define SLEEP_TIME_NORMAL_SEC 2 * 24 * 60 *60  //  Tage
 #define SLEEP_TIME_NORMAL_SEC 30 *60  // 30 Minuten
 #define SLEEP_TIME_LOW_LEVEL_SEC 15 * 60  // alle 15 Minuten
+// #define SLEEP_TIME_LOW_LEVEL_SEC 60  // jede Minute
 #define SLEEP_TIME_IMMEDIATE_WAKEUP 5  // reboot if tranmission is not successful in between 20 seconds
 
 operation_mode_t operation_mode = TIMER_WAKEUP;
@@ -115,7 +117,6 @@ void powerOffAndSleep(bool rebootImmediately)
   fflush(stdout);
 
   esp_deep_sleep_start();
-  printf("This will never be printed");
 }
 
 #ifdef __cplusplus
